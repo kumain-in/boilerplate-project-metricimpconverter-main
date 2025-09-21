@@ -28,7 +28,7 @@ suite('Unit Tests', function(){
 
     test('Fractional input with a decimal', function(done) {
       const input = '5.4/3L';
-      assert.approximately(convertHandler.getNum(input), 1.8, 0.00001);
+      assert.equal(convertHandler.getNum(input), 1.8);
       done();
     });
 
@@ -96,42 +96,42 @@ suite('Unit Tests', function(){
     test('Convert gal to L', function(done) {
       const input = [5, 'gal'];
       const expected = 18.92705;
-      assert.approximately(convertHandler.convert(input[0], input[1]), expected, 0.1); //0.1 tolerance
+      assert.equal(convertHandler.convert(input[0], input[1]), expected);
       done();
     });
 
     test('Convert L to gal', function(done) {
       const input = [5, 'L'];
       const expected = 1.32086;
-      assert.approximately(convertHandler.convert(input[0], input[1]), expected, 0.1);
+      assert.equal(convertHandler.convert(input[0], input[1]), expected);
       done();
     });
 
     test('Convert mi to km', function(done) {
       const input = [5, 'mi'];
       const expected = 8.0467;
-      assert.approximately(convertHandler.convert(input[0], input[1]), expected, 0.1);
+      assert.equal(convertHandler.convert(input[0], input[1]), expected);
       done();
     });
 
     test('Convert km to mi', function(done) {
       const input = [5, 'km'];
       const expected = 3.10686;
-      assert.approximately(convertHandler.convert(input[0], input[1]), expected, 0.1);
+      assert.equal(convertHandler.convert(input[0], input[1]), expected);
       done();
     });
 
     test('Convert lbs to kg', function(done) {
       const input = [5, 'lbs'];
       const expected = 2.26796;
-      assert.approximately(convertHandler.convert(input[0], input[1]), expected, 0.1);
+      assert.equal(convertHandler.convert(input[0], input[1]), expected);
       done();
     });
 
     test('Convert kg to lbs', function(done) {
       const input = [5, 'kg'];
       const expected = 11.02312;
-      assert.approximately(convertHandler.convert(input[0], input[1]), expected, 0.1);
+      assert.equal(convertHandler.convert(input[0], input[1]), expected);
       done();
     });
 
