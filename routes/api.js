@@ -1,7 +1,7 @@
 /*
 *
 *
-* Complete the API routing below
+* Complete the API routing logic below
 *
 *
 */
@@ -17,24 +17,28 @@ module.exports = function (app) {
 
   app.route('/api/convert')
     .get(function (req, res){
-      let input = req.query.input;
-      let initNum = convertHandler.getNum(input);
-      let initUnit = convertHandler.getUnit(input);
+      const input = req.query.input;
+      
+      const initNum = convertHandler.getNum(input);
+      const initUnit = convertHandler.getUnit(input);
 
-      // Handle cases where either the number or the unit is invalid.
+      // Check for errors from the number and unit handlers
       if (initNum === 'invalid number' && initUnit === 'invalid unit') {
-        return res.send('invalid number and unit');
-      } else if (initNum === 'invalid number') {
-        return res.send('invalid number');
-      } else if (initUnit === 'invalid unit') {
-        return res.send('invalid unit');
+        return res.json({ error: 'invalid number and unit' });
       }
-      
-      let returnUnit = convertHandler.getReturnUnit(initUnit);
-      let returnNum = convertHandler.convert(initNum, initUnit);
-      let toString = convertHandler.getString(initNum, initUnit, returnNum, returnUnit);
-      
-      // If everything is valid, return the JSON object.
+      if (initNum === 'invalid number') {
+        return res.json({ error: 'invalid number' });
+      }
+      if (initUnit === 'invalid unit') {
+        return res.json({ error: 'invalid unit' });
+      }
+
+      // If inputs are valid, proceed with the conversion
+      const returnNum = convertHandler.convert(initNum, initUnit);
+      const returnUnit = convertHandler.getReturnUnit(initUnit);
+      const toString = convertHandler.getString(initNum, initUnit, returnNum, returnUnit);
+
+      // Construct and send the final JSON response
       res.json({
         initNum: initNum,
         initUnit: initUnit,
