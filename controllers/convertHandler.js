@@ -1,33 +1,26 @@
 function ConvertHandler() {
   
   this.getNum = function(input) {
-    // Find the index of the first alphabetical character to isolate the number part.
     let numEndIndex = input.search(/[a-zA-Z]/);
     let numStr = (numEndIndex === -1) ? input : input.slice(0, numEndIndex);
 
-    // If no number is provided (e.g., "kg"), default to 1.
     if (numStr.length === 0) {
       return 1;
     }
 
-    // Check for fractions.
     let parts = numStr.split('/');
     
-    // If it's a double fraction (e.g., "3/2/3"), it's an invalid number.
     if (parts.length > 2) {
       return 'invalid number';
     }
     
     let result;
-    // If it's a fraction, calculate its decimal value.
     if (parts.length === 2) {
       result = parseFloat(parts[0]) / parseFloat(parts[1]);
     } else {
-      // Otherwise, parse it as a standard number.
       result = parseFloat(parts[0]);
     }
 
-    // If the result is not a number, it's invalid.
     if (isNaN(result)) {
       return 'invalid number';
     }
@@ -36,7 +29,6 @@ function ConvertHandler() {
   };
   
   this.getUnit = function(input) {
-    // Find the index of the first alphabetical character to isolate the unit part.
     let unitStartIndex = input.search(/[a-zA-Z]/);
     
     // If no alphabetical characters are found, it's an invalid unit.
@@ -47,12 +39,10 @@ function ConvertHandler() {
     let unit = input.slice(unitStartIndex).toLowerCase();
     const validUnits = ['gal', 'l', 'mi', 'km', 'lbs', 'kg'];
 
-    // Special case for liters, which should be returned as 'L'.
     if (unit === 'l') {
       return 'L';
     }
     
-    // Check if the extracted unit is in the list of valid units.
     if (validUnits.includes(unit)) {
       return unit;
     }
@@ -72,7 +62,6 @@ function ConvertHandler() {
       'kg': 'lbs'
     };
     
-    // Return the corresponding unit from the map.
     return unitMap[initUnit.toLowerCase()];
   };
 
@@ -88,7 +77,6 @@ function ConvertHandler() {
       'kg': 'kilograms'
     };
     
-    // Return the full name of the unit.
     return spellMap[unit.toLowerCase()];
   };
   
@@ -100,7 +88,6 @@ function ConvertHandler() {
 
     if (!initUnit) return null;
     
-    // Perform the conversion based on the initial unit.
     switch (initUnit.toLowerCase()) {
       case 'gal':
         result = initNum * galToL;
@@ -121,19 +108,16 @@ function ConvertHandler() {
         result = initNum / miToKm;
         break;
       default:
-        result = null; // Should not happen with validation
+        result = null; 
     }
     
-    // Round the result to 5 decimal places.
     return result ? parseFloat(result.toFixed(5)) : null;
   };
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-    // Get the spelled-out versions of the units.
     const initUnitStr = this.spellOutUnit(initUnit);
     const returnUnitStr = this.spellOutUnit(returnUnit);
     
-    // Construct the final string.
     return `${initNum} ${initUnitStr} converts to ${returnNum} ${returnUnitStr}`;
   };
   
